@@ -1,0 +1,58 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<malloc.h>
+typedef struct LNode{
+    int          data;
+    struct LNode *next;
+}LNode,*LinkList;
+/*
+节点的定义方式
+该节点里有一个int类型的data和一个指向该节点类型的指针next（next为地址） 
+该节点被命名为LNode和*LinkList，其中LinkList为该节点的地址 
+*/ 
+ 
+LinkList CreateList(int n);//创建一个链表 
+void print(LinkList h);//打印一个链表 
+
+int main()
+{
+    LinkList Head=NULL;//取Head为头节点，里面不存数据，只存第一个节点的地址 
+    int n;
+    
+    scanf("%d",&n);
+    Head=CreateList(n);
+    
+    printf("刚刚建立的各个链表元素的值为：\n");
+    print(Head);
+    
+    printf("\n\n");
+    system("pause");
+    return 0;
+}
+LinkList CreateList(int n)//返回一个LinkList类型的变量，即返回头结点的地址 
+{
+    LinkList L,p,q;//头结点为L，pq为中间变量 
+    int i;
+    L=(LNode*)malloc(sizeof(LNode));//申请头结点的内存 
+    if(!L)return 0;//内存申请失败 
+    L->next=NULL;//令头结点内 存的下一个地址为空 
+    q=L;//将头结点的地址赋给中间变量 
+    for(i=1;i<=n;i++)
+    {
+        p=(LinkList)malloc(sizeof(LNode));//申请新节点的内存 
+        printf("请输入第%d个元素的值:",i);
+        scanf("%d",&(p->data));
+        p->next=NULL;//新节点存的next为空 
+        q->next=p;//让前一个节点的next存为新节点的地址，这样两个节点就连接起来了 
+        q=p;//让中间变量的地址赋给新节点的地址，这样就可以在循环里操作上一个节点的next使得节点连接起来 
+    }
+    return L;
+}
+void print(LinkList h)
+{
+    LinkList p=h->next;//h为头节点，里面没有数据，头结点的next里有数据，即第一个节点的数据 
+    while(p!=NULL){
+        printf("%d ",p->data);
+        p=p->next;//让节点一直往后找节点输出 
+    }
+}
